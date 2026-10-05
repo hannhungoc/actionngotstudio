@@ -1,0 +1,808 @@
+<title>Kế Hoạch 90 Ngày — Bản Đội Thực Thi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap">
+
+<style>
+:root{
+  --bg:#F3EFE7; --surface:#FAF7F1; --surface-2:#EAE4D9; --field:#FFFFFF;
+  --text:#16130F; --text-2:#4A4139; --text-3:#8B8073;
+  --rule:#D6CDBD; --rule-2:#B8AC97;
+  --accent:#7A4B2A; --accent-soft:#F0E3D6;
+  --ok:#3B6B4F; --ok-soft:#E2EDE5;
+  --warn:#8A6410; --warn-soft:#F6EBD2;
+  --stop:#93331F; --stop-soft:#F6E1DB;
+  --serif:"Cormorant Garamond",Georgia,serif;
+  --sans:"Manrope",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#100E0B; --surface:#1A1612; --surface-2:#241F19; --field:#221D18;
+    --text:#F2EDE4; --text-2:#C7BEB1; --text-3:#8F857A;
+    --rule:#332C25; --rule-2:#4A4137;
+    --accent:#D89C6A; --accent-soft:#2A1F16;
+    --ok:#7DBE97; --ok-soft:#18261D;
+    --warn:#D9B061; --warn-soft:#2A2113;
+    --stop:#DE8C77; --stop-soft:#2C1712;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#100E0B; --surface:#1A1612; --surface-2:#241F19; --field:#221D18;
+  --text:#F2EDE4; --text-2:#C7BEB1; --text-3:#8F857A;
+  --rule:#332C25; --rule-2:#4A4137;
+  --accent:#D89C6A; --accent-soft:#2A1F16;
+  --ok:#7DBE97; --ok-soft:#18261D;
+  --warn:#D9B061; --warn-soft:#2A2113;
+  --stop:#DE8C77; --stop-soft:#2C1712;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);
+  font-size:15px;line-height:1.58;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1100px;margin:0 auto;padding:0 20px}
+
+.mast{background:#16130F;color:#F3EFE7;padding:34px 0 30px}
+.mast .eyebrow{font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;font-weight:700;color:#A9A093;margin-bottom:10px}
+.mast h1{font-family:var(--serif);font-weight:600;font-size:clamp(28px,4.8vw,46px);line-height:1.04;margin:0 0 12px;color:#F6F2EA}
+.mast p{margin:0;color:#CFC7B8;font-size:15px;max-width:72ch}
+
+.kpibar{position:sticky;top:0;z-index:30;background:var(--surface);
+  border-bottom:1px solid var(--rule-2);box-shadow:0 4px 14px -10px rgba(0,0,0,.35)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:0}
+.kpi{padding:13px 16px;border-right:1px solid var(--rule)}
+.kpi:last-child{border-right:none}
+.kpi .k{font-size:9.5px;letter-spacing:.15em;text-transform:uppercase;font-weight:800;color:var(--text-3);margin-bottom:5px}
+.kpi .v{font-family:var(--serif);font-size:27px;font-weight:600;line-height:1;font-variant-numeric:tabular-nums}
+.kpi .n{font-size:11.5px;color:var(--text-3);margin-top:4px;line-height:1.35}
+.v.good{color:var(--ok)} .v.bad{color:var(--stop)} .v.mid{color:var(--warn)}
+
+nav.tabs{display:flex;flex-wrap:wrap;gap:6px;padding:16px 0 0}
+nav.tabs button{font-size:12.5px;font-weight:700;padding:8px 14px;border-radius:100px;
+  border:1px solid var(--rule-2);background:var(--surface);color:var(--text-2);cursor:pointer;
+  font-family:var(--sans);transition:.15s}
+nav.tabs button:hover{border-color:var(--accent);color:var(--accent)}
+nav.tabs button.on{background:var(--accent);border-color:var(--accent);color:#FFF}
+
+main{padding:22px 0 80px}
+.pane{display:none} .pane.on{display:block}
+section{margin-bottom:36px}
+.snum{font-size:10px;letter-spacing:.2em;text-transform:uppercase;font-weight:800;color:var(--accent);margin-bottom:6px}
+h2{font-family:var(--serif);font-size:28px;font-weight:600;margin:0 0 6px;line-height:1.14;text-wrap:balance}
+h3{font-family:var(--sans);font-size:16px;font-weight:700;margin:26px 0 8px}
+.hint{font-size:13.5px;color:var(--text-3);margin:0 0 14px;max-width:84ch}
+p{margin:0 0 14px;color:var(--text-2)}
+.lead{font-size:16.5px;color:var(--text);max-width:76ch}
+ul{margin:0 0 14px;padding-left:20px;color:var(--text-2)} li{margin-bottom:6px}
+strong{color:var(--text);font-weight:700}
+
+.tw{overflow-x:auto;border:1px solid var(--rule);border-radius:3px;background:var(--surface);margin-bottom:8px}
+table{border-collapse:collapse;width:100%;font-size:13.5px;min-width:600px}
+th{background:var(--surface-2);text-align:left;padding:9px 12px;font-weight:800;font-size:10px;
+  letter-spacing:.09em;text-transform:uppercase;color:var(--text-2);
+  border-bottom:1px solid var(--rule-2);white-space:nowrap;vertical-align:bottom}
+td{padding:8px 12px;border-bottom:1px solid var(--rule);color:var(--text-2);vertical-align:top}
+tr:last-child td{border-bottom:none}
+th.n,td.n{text-align:right}
+td.calc{font-variant-numeric:tabular-nums;font-weight:700;color:var(--text);white-space:nowrap}
+tr.sum td{background:var(--surface-2);font-weight:800;color:var(--text)}
+tr.grand td{background:var(--accent-soft);font-weight:800;color:var(--text);border-top:2px solid var(--accent)}
+td .lbl{font-weight:600;color:var(--text)}
+td .sub{display:block;font-size:11.5px;color:var(--text-3);line-height:1.4;margin-top:2px}
+caption{caption-side:bottom;text-align:left;font-size:12px;color:var(--text-3);padding:9px 12px;line-height:1.5}
+.pos{color:var(--ok)} .neg{color:var(--stop)} .amber{color:var(--warn)}
+
+input[type=text],input[type=number]{font-family:var(--sans);font-size:13.5px;font-weight:600;text-align:right;
+  font-variant-numeric:tabular-nums;padding:5px 9px;width:100%;min-width:74px;
+  border:1px solid var(--rule-2);border-radius:3px;background:var(--field);color:var(--accent)}
+input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+input::placeholder{color:var(--text-3);font-weight:400;opacity:.7}
+
+/* task list */
+.wk{margin-bottom:6px;border:1px solid var(--rule);border-radius:3px;background:var(--surface);overflow:hidden}
+.wkh{display:flex;align-items:center;gap:12px;padding:11px 14px;background:var(--surface-2);
+  border-bottom:1px solid var(--rule)}
+.wkh .w{font-family:var(--serif);font-size:19px;font-weight:600;color:var(--accent);min-width:78px}
+.wkh .t{flex:1;font-weight:700;font-size:14px;color:var(--text)}
+.wkh .c{font-size:11.5px;color:var(--text-3);font-variant-numeric:tabular-nums;white-space:nowrap}
+.agn{font-weight:800;color:var(--text);font-size:13.5px;letter-spacing:.02em}
+.ags{font-size:11.5px;color:var(--text-3);margin-left:10px;font-variant-numeric:tabular-nums;font-weight:400}
+.agw{font-size:12px;color:var(--text-2);font-weight:400;margin-top:5px;line-height:1.5;max-width:780px}
+@media(max-width:640px){.ags{display:block;margin-left:0;margin-top:3px}}
+.task{display:grid;grid-template-columns:26px 1fr;gap:10px;padding:11px 14px;border-bottom:1px solid var(--rule)}
+.task:last-child{border-bottom:none}
+.task input[type=checkbox]{width:17px;height:17px;margin-top:2px;accent-color:var(--accent);cursor:pointer}
+.task .tt{font-weight:600;color:var(--text);font-size:14px}
+.task.done .tt{text-decoration:line-through;color:var(--text-3)}
+.task .td{font-size:12.5px;color:var(--text-2);margin-top:3px;line-height:1.45}
+.task .tm{display:flex;flex-wrap:wrap;gap:5px 8px;margin-top:6px}
+.tg{font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:100px;background:var(--surface-2);
+  color:var(--text-3);border:1px solid var(--rule);white-space:nowrap}
+.tg.done{background:var(--ok-soft);color:var(--ok);border-color:var(--ok)}
+
+.bar{height:7px;border-radius:100px;background:var(--surface-2);overflow:hidden;margin:10px 0 18px}
+.bar i{display:block;height:100%;background:var(--accent);transition:width .25s}
+
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px;margin:16px 0}
+.card{padding:16px 18px;border:1px solid var(--rule);border-radius:3px;background:var(--surface)}
+.card.gate{border-top:3px solid var(--accent);border-radius:0 0 3px 3px}
+.card.risk{border-left:3px solid var(--stop);background:var(--stop-soft)}
+.card.warn{border-left:3px solid var(--warn);background:var(--warn-soft)}
+.card h4{margin:0 0 6px;font-size:14.5px;font-weight:700;color:var(--text)}
+.card .lab{font-size:10px;letter-spacing:.15em;text-transform:uppercase;font-weight:800;color:var(--accent);margin-bottom:7px}
+.card p{margin:0 0 8px;font-size:13px;line-height:1.5}
+.card p:last-child{margin-bottom:0}
+.card .yes{font-size:12.5px;color:var(--ok);font-weight:600;margin-top:8px}
+.card .no{font-size:12.5px;color:var(--stop);font-weight:600;margin-top:3px}
+
+.note{padding:15px 18px;border-left:3px solid var(--accent);background:var(--accent-soft);
+  border-radius:0 3px 3px 0;font-size:13.5px;color:var(--text-2);margin:16px 0}
+.note.risk{border-left-color:var(--stop);background:var(--stop-soft)}
+.note.ok{border-left-color:var(--ok);background:var(--ok-soft)}
+.note b{color:var(--text)}
+.note h4{margin:0 0 7px;font-size:14px;font-weight:800;color:var(--text)}
+
+.flow{display:flex;flex-wrap:wrap;align-items:stretch;gap:8px;margin:18px 0}
+.fstep{flex:1 1 130px;padding:13px 14px;border:1px solid var(--rule);border-radius:3px;background:var(--surface);position:relative}
+.fstep .fn{font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:800;color:var(--accent);margin-bottom:5px}
+.fstep .ft{font-weight:700;font-size:13.5px;color:var(--text);line-height:1.3}
+.fstep .fd{font-size:11.5px;color:var(--text-3);margin-top:4px;line-height:1.4}
+
+.tools{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px}
+.tools button{font-family:var(--sans);font-size:12.5px;font-weight:700;padding:7px 13px;border-radius:3px;
+  border:1px solid var(--rule-2);background:var(--surface);color:var(--text);cursor:pointer}
+.tools button:hover{border-color:var(--accent);color:var(--accent)}
+
+footer{border-top:1px solid var(--rule);padding:22px 0 40px;font-size:12px;color:var(--text-3)}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(max-width:640px){.kpi .v{font-size:22px}.wkh{flex-wrap:wrap}.wkh .w{min-width:0}}
+</style>
+
+<header class="mast">
+  <div class="wrap">
+    <div class="eyebrow">Ngọt Agency · 90 ngày đầu · bản dành cho đội thực thi</div>
+    <h1>Kế hoạch 90 ngày<br>bản dành cho đội thực thi</h1>
+    <p>Bản này gồm bốn thứ: làm gì, chuẩn bị gì, bán gì, và đạt con số nào. Mọi ô tích và ô nhập lưu trên máy của chính người mở — mỗi người theo dõi phần việc của mình. Ai cần con số tài chính đầy đủ thì hỏi anh Quang.</p>
+  </div>
+</header>
+
+<div class="kpibar">
+  <div class="wrap">
+    <div class="kpis">
+      <div class="kpi"><div class="k">Ngân sách chạy việc</div><div class="v" id="kBudget">—</div><div class="n">tổng 90 ngày</div></div>
+      <div class="kpi"><div class="k">Doanh thu mục tiêu</div><div class="v" id="kGoal">—</div><div class="n">cộng cả ba tháng</div></div>
+      <div class="kpi"><div class="k">Số khách phải có</div><div class="v" id="kCust">—</div><div class="n">người mua Khai thông trong 90 ngày</div></div>
+      <div class="kpi"><div class="k">Việc đã xong</div><div class="v" id="kTask">—</div><div class="n" id="kTaskN">trên tổng số việc</div></div>
+    </div>
+  </div>
+</div>
+
+<main class="wrap">
+  <div class="tools" style="margin:14px 0 0">
+    <button id="btnRecalc">Tính lại toàn bộ</button>
+    <button id="btnFresh">Xoá bộ nhớ và nạp lại số gốc</button>
+    <span style="font-size:12px;color:var(--text-3);align-self:center">Nếu các ô chỉ số phía trên hiện dấu gạch, bấm "Tính lại toàn bộ".</span>
+  </div>
+
+  <nav class="tabs" id="tabs">
+    <button data-p="p0" class="on">Hiểu nhanh</button>
+    <button data-p="p1">Ngân sách &amp; mục tiêu</button>
+    <button data-p="p2">Checklist công việc</button>
+    <button data-p="p4">Chỉ số theo dõi</button>
+  </nav>
+
+<!-- ================= P0 ================= -->
+<div class="pane on" id="p0">
+  <section>
+    <div class="snum">Phần 1</div>
+    <h2>Kế hoạch này thực ra làm gì</h2>
+    <p class="lead">Ba tháng đầu không phải để kiếm tiền. Là để trả lời một câu: <strong>nội dung của anh có kéo được đúng người, và người đó có trả tiền không.</strong> Mọi đồng chi ra trong 90 ngày là tiền mua câu trả lời đó.</p>
+    <p>Ngọc — người chạy quảng cáo — lo bốn việc: đưa video đến đúng người, dựng trang web, gắn mã để biết khách đến từ đâu, và đo xem kênh nào hiệu quả. Bạn ấy <strong>không</strong> nghĩ ý tưởng, không viết kịch bản, không quay, không dựng, không thiết kế. Những thứ đó là việc của Trang, freelancer dựng và anh.</p>
+
+    <h3>Đường đi của một khách hàng</h3>
+    <div class="flow">
+      <div class="fstep"><div class="fn">Bước 1</div><div class="ft">Xem video</div><div class="fd">TikTok, Facebook — có cả video tự lên và video được đẩy tiền</div></div>
+      <div class="fstep"><div class="fn">Bước 2</div><div class="ft">Bấm vào trang web</div><div class="fd">Trang giới thiệu, trang tải tài liệu miễn phí</div></div>
+      <div class="fstep"><div class="fn">Bước 3</div><div class="ft">Để lại số Zalo</div><div class="fd">Điền form hoặc bấm nút nhắn Zalo</div></div>
+      <div class="fstep"><div class="fn">Bước 4</div><div class="ft">Hẹn buổi nói chuyện</div><div class="fd">Trang gọi trong 24 giờ đầu, đặt lịch tư vấn cho anh</div></div>
+      <div class="fstep"><div class="fn">Bước 5</div><div class="ft">Mua Khai thông điểm nghẽn 6 triệu</div><div class="fd">Hai buổi soi studio và trả lộ trình</div></div>
+      <div class="fstep"><div class="fn">Bước 6</div><div class="ft">Mua Kiến Tạo Mắt Xích 18 triệu</div><div class="fd">Cài một phân hệ vào studio của họ</div></div>
+    </div>
+
+    <h3>Ai làm gì</h3>
+    <div class="tw">
+      <table>
+        <thead><tr><th style="width:24%">Người</th><th>Chịu trách nhiệm</th><th style="width:30%">Không làm</th></tr></thead>
+        <tbody>
+          <tr><td><span class="lbl">Ngọc — Digital Marketing</span></td>
+            <td>Dựng web, gắn mã theo dõi, đẩy video vào các nhóm, chạy quảng cáo, báo cáo số, tối ưu</td>
+            <td>Không viết bài, không quay, không dựng video, không thiết kế, không nhắn tin bán hàng thay anh</td></tr>
+          <tr><td><span class="lbl">Trang — Trợ lý</span></td>
+            <td>Ý tưởng và kịch bản nội dung, viết bài Fanpage, đặt và nghiệm thu freelancer dựng, chạy buổi Tâm sự, gọi hẹn khách, nhập liệu CRM</td>
+            <td>Không chạy quảng cáo, không đụng vào web và mã đo</td></tr>
+          <tr><td><span class="lbl">Quang — Founder</span></td>
+            <td>Lập CRM, duyệt giá và chính sách bán, viết quy trình tư vấn và hồ sơ gói, trực tiếp tư vấn khách, chốt đi hay dừng</td>
+            <td>Không làm thay việc kỹ thuật, không dựng video</td></tr>
+          <tr><td><span class="lbl">Freelancer dựng</span></td>
+            <td>Dựng video theo brief của Trang, trả file trong 48 giờ</td>
+            <td>Không tự đổi nội dung, không làm việc trực tiếp với Ngọc</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Bốn luật bất di bất dịch</h3>
+    <ul>
+      <li><strong>Trang giao video hoàn chỉnh.</strong> Ngọc không tự quay, không tự dựng.</li>
+      <li><strong>Giao trước lịch chạy ít nhất 5 ngày làm việc.</strong> Thiếu đồ thì dời lịch, không đẩy việc sản xuất sang Ngọc.</li>
+      <li><strong>Chỉ tăng tiền quảng cáo khi đo đúng và giá mỗi khách nằm trong ngưỡng.</strong></li>
+      <li><strong>Đẩy video bằng thảo luận thật. Tuyệt đối không mua lượt xem ảo.</strong> Riêng follow thì được buff một lần để kênh thoát khỏi trạng thái trống, nhưng có trần và có mốc dừng: tỉ lệ tương tác tụt quá 30 phần trăm so với trước khi buff thì dừng ngay, chuyển phần tiền còn lại sang quảng cáo lấy follow thật.</li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="snum">Phần 2</div>
+    <h2>Năm câu hỏi phải trả lời sau 90 ngày</h2>
+    <p class="hint">Hết ba tháng, anh ngồi xuống và chấm từng cái. Đây là điều kiện để quyết định đi tiếp hay dừng.</p>
+    <div class="cards" id="gates"></div>
+  </section>
+</div>
+
+<!-- ================= P1 ================= -->
+<div class="pane" id="p1">
+  <section>
+    <div class="snum">Phần 3</div>
+    <h2>Tiền chạy việc trong 90 ngày</h2>
+    <p class="hint">Đây là toàn bộ ngân sách Ngọc quản: quảng cáo, đẩy bài, web, công cụ. Không khoản nào được dùng sai mục, và mọi khoản vượt phải hỏi anh Quang trước.</p>
+    <div class="tw">
+      <table>
+        <thead><tr><th>Khoản</th><th class="n">Tháng 1</th><th class="n">Tháng 2</th><th class="n">Tháng 3</th><th class="n">Cộng 90 ngày</th><th style="width:28%">Giải thích</th></tr></thead>
+        <tbody id="budgetBody"></tbody>
+      </table>
+      <caption>Trong đó tiền dùng để ra khách (quảng cáo TikTok, Facebook, đẩy video, đẩy bài) là 6.250.000 · 8.150.000 · 9.150.000 mỗi tháng — đây là mẫu số để tính giá mỗi người để lại số.</caption>
+    </div>
+  </section>
+
+  <section>
+    <div class="snum">Phần 4</div>
+    <h2>Bán gì, giá bao nhiêu</h2>
+    <p class="hint">Mọi nội dung, quảng cáo và tin nhắn đều phải nói đúng tên và đúng giá dưới đây. Không tự đặt tên khác, không tự hứa thêm.</p>
+    <div class="tw">
+      <table>
+        <thead><tr><th style="width:26%">Sản phẩm</th><th class="n">Giá</th><th style="width:30%">Là cái gì</th><th>Trong 90 ngày</th></tr></thead>
+        <tbody id="priceBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="snum">Phần 5</div>
+    <h2>Mục tiêu từng khâu theo tháng</h2>
+    <p class="hint">Đọc từ trên xuống, mỗi dòng sinh ra dòng dưới. Trượt ở dòng nào thì sửa đúng dòng đó, đừng sửa dòng dưới.</p>
+    <div class="tw">
+      <table>
+        <thead><tr><th style="width:28%">Khâu</th><th class="n">Tháng 1</th><th class="n">Tháng 2</th><th class="n">Tháng 3</th><th style="width:32%">Ra từ đâu</th></tr></thead>
+        <tbody id="targetBody"></tbody>
+      </table>
+    </div>
+  </section>
+</div>
+
+<div class="pane" id="p2">
+  <section>
+    <div class="snum">Phần 6</div>
+    <h2>Checklist công việc 90 ngày</h2>
+    <p class="lead">Gộp toàn bộ việc phải làm và tài nguyên phải giao thành một danh sách duy nhất, xếp theo thứ tự thời gian. Mỗi dòng ghi rõ <b>ai làm · đầu ra là gì · đo bằng gì · hạn ngày nào</b>. Không dòng nào có hai người chịu trách nhiệm chính.</p>
+    <p class="hint">Dự án chạy từ <b>thứ 2 ngày 21/9/2026</b> đến <b>19/12/2026</b>. Bấm tên người để chỉ xem việc của mình.</p>
+    <div class="tools" id="whoBar"></div>
+    <div class="bar"><i id="ckBar" style="width:0%"></i></div>
+    <div id="ckList"></div>
+    <div class="note">
+      <h4>Sáu quy tắc giao nhận</h4>
+      <p>1. Mỗi dòng chỉ có một người chịu trách nhiệm chính. Người đứng sau dấu cộng là người phối hợp, không phải người bị hỏi khi trễ.</p>
+      <p>2. Chưa xong nhóm Tuần 1 thì không tiêu đồng quảng cáo nào — quảng cáo sẽ không biết nói gì, bán gì, gửi khách đi đâu.</p>
+      <p>3. Video và bài giao trước lịch chạy ít nhất 5 ngày làm việc. Mỗi file có mã và số phiên bản, đặt đúng thư mục đã thống nhất.</p>
+      <p>4. Thiếu đồ thì dời lịch chạy, không đẩy việc sản xuất sang Ngọc.</p>
+      <p>5. Ngọc được quyền trả lại file sai chuẩn và yêu cầu làm thêm biến thể, nhưng không tự dựng lại.</p>
+      <p>6. Việc trễ hạn phải báo trước ngày hết hạn, không báo sau.</p>
+    </div>
+  </section>
+</div>
+
+<div class="pane" id="p4">
+  <section>
+    <div class="snum">Phần 7</div>
+    <h2>Chỉ số theo dõi hằng tháng</h2>
+    <p class="lead">Mười bảy chỉ số chia sáu mảng việc, xếp theo đúng đường đi của khách: tiền ra → nội dung → lấy số → lọc và hẹn → bán → tiền về. Mục tiêu lấy thẳng từ tab Ngân sách &amp; mục tiêu, không đặt tay.</p>
+    <p class="hint">Mỗi tháng chỉ nhập <b>10 số</b> — những dòng có ô trắng. Bảy dòng ghi <b>tự tính</b> sẽ tự hiện ra, không phải bấm máy tính, không sai số học. Ô xanh là đạt, đỏ là trượt.</p>
+    <div class="tw">
+      <table>
+        <thead><tr>
+          <th style="width:23%">Chỉ số</th><th style="width:21%">Nói dễ hiểu là</th>
+          <th class="n">MT T1</th><th class="n">Thực tế</th>
+          <th class="n">MT T2</th><th class="n">Thực tế</th>
+          <th class="n">MT T3</th><th class="n">Thực tế</th>
+        </tr></thead>
+        <tbody id="kpiBody"></tbody>
+      </table>
+      <caption>MT = mục tiêu. Dấu ≥ nghĩa là càng cao càng tốt, ≤ nghĩa là càng thấp càng tốt.</caption>
+    </div>
+    <div class="note ok" id="kpiNote">Điền cột thực tế vào cuối mỗi tháng, phần đánh giá sẽ hiện ở đây.</div>
+  </section>
+</div>
+
+<!-- ================= P5 ================= -->
+</main>
+
+<footer>
+  <div class="wrap">
+    Kế hoạch 90 ngày Ngọt Agency · bản dành cho đội thực thi · tháng 9/2026.
+    Ô tích và số nhập được lưu trên máy của người mở, mở lại vẫn còn. Đây là bản rút gọn — phần tài chính đầy đủ do anh Quang giữ.
+  </div>
+</footer>
+
+<script>
+(function(){
+"use strict";
+var KEY="ngot-90d-team-v1";
+var missing=[];
+function boom(where,e){
+  var b=document.createElement("div");
+  b.style.cssText="position:fixed;left:0;right:0;bottom:0;z-index:999;background:#93331F;color:#fff;"+
+   "padding:12px 18px;font:13px/1.5 system-ui,sans-serif";
+  b.textContent="Trang bị lỗi ở bước “"+where+"”: "+(e&&e.message?e.message:e)+
+   (missing.length?" · thiếu ô: "+missing.slice(0,6).join(", "):"");
+  document.body.appendChild(b);
+}
+
+/* ---------- DATA ---------- */
+var BUDGET=[
+ ["Quảng cáo TikTok","Tiền đẩy video trên TikTok",3000000,3000000,3000000,"Giữ mức đều, chỉ tăng khi giá mỗi khách đạt ngưỡng"],
+ ["Quảng cáo Facebook","Tiền đẩy bài trên Facebook",2000000,3000000,4000000,"Tăng dần thay vì chi mạnh ngay tháng 1"],
+ ["Đẩy video TikTok","Thuê người vào bình luận, tạo thảo luận thật — 100 nghìn một video",900000,1800000,1800000,"ĐÃ SỬA · tháng 1 chỉ 9 video vì tuần 1–2 còn dựng web, tháng 2–3 chạy đủ 18 video. Tổng vẫn 4,5 triệu"],
+ ["Đẩy bài Fanpage","Bình luận có nội dung dưới bài bán hàng",350000,350000,350000,"Dùng tài khoản thật, đúng ngành"],
+ ["Tích xanh Fanpage","Mua và duy trì dấu tích xanh",2000000,300000,300000,"2 triệu ban đầu, sau đó 300 nghìn mỗi tháng"],
+ ["Buff follow vượt ngưỡng kênh trống","Đẩy lên khoảng 2–3 nghìn follow rồi dừng hẳn",1500000,0,0,"ĐÃ SỬA · tách từ khoản 3 triệu cũ. Có mốc dừng, không chạy tới 20 nghìn follow"],
+ ["Mua follow thật qua quảng cáo","Chạy quảng cáo để người thật bấm theo dõi",1500000,0,0,"ĐÃ SỬA · nửa còn lại của 3 triệu, đổi sang follow thật để số liệu không bị nhiễu"],
+ ["Tên miền và chỗ đặt web","Mua domain, hosting, chứng chỉ bảo mật",2500000,0,0,"Chi một lần, Ngọc tự dựng web"],
+ ["Công cụ AI","Phần mềm hỗ trợ viết code và làm việc",3000000,3000000,3000000,"Giảm được nếu đã có gói dùng chung với Ngọt"],
+ ["Phần mềm quản lý khách","Pancake để gom tin nhắn và theo dõi khách",300000,300000,300000,"Không để sót khách nào"],
+ ["Mã theo dõi và tự động hoá","Công cụ để biết khách đến từ đâu, gửi tin tự động",500000,500000,500000,"Kiểm thử form và mã đo"],
+ ["Dự phòng 5%","Khoản để dành cho việc phát sinh",877500,612500,662500,"ĐÃ SỬA · tính lại 5% sau khi dời tiền đẩy video giữa các tháng"]
+];
+/* tiền dùng để tính giá mỗi khách: quảng cáo TikTok + Facebook + đẩy video + đẩy bài.
+   Không tính khoản mua follow — vì nó không nhằm ra khách. */
+var MKT=[6250000,8150000,9150000];
+var PRODUCTS=[
+ {k:"kp",n:"Khám Phá Bộ Máy Vận Hành Studio",s:"Bộ tài liệu và sơ đồ, tặng để đổi lấy thông tin",p:0,d:0,q:[0,0,0],rec:false,
+  fit:"Được — đây là mồi câu của cả phễu, phải có từ tuần 2. Không thu tiền nên không nằm trong bảng doanh thu."},
+ {k:"ts",n:"Tâm sự cùng chủ Studio",s:"Workshop nhóm, tháo gỡ một vấn đề vận hành",p:1500000,d:20,q:[0,0,0],rec:false,
+  fit:"Được — sản phẩm duy nhất anh đã bán thật: 9 đơn, 1 người lên gói lớn. Cửa ngõ rẻ nhất để khách thử."},
+ {k:"tx",n:"Tự Xây Nền Tảng Vận Hành Studio",s:"Bộ công cụ tự triển khai: video, biểu mẫu, hướng dẫn",p:2900000,d:6,q:[0,0,0],rec:false,
+  fit:"Chưa — trong 90 ngày không có việc nào quay video và dựng biểu mẫu. Muốn bán thì phải thêm vào danh sách đồ cần chuẩn bị."},
+ {k:"kt",n:"Khai thông điểm nghẽn",s:"Hai buổi 1:1, chẩn đoán và kê lộ trình",p:6000000,d:15,q:[1,2,3],rec:false,
+  fit:"Được — đây là sản phẩm chính của 90 ngày, nhưng phễu chỉ cho tối đa 3 khách ở tháng 3."},
+ {k:"mx",n:"Kiến Tạo Mắt Xích Vận Hành Studio",s:"Triển khai một phân hệ, 4–6 tuần",p:18000000,d:50,q:[0,0.4,0.8],rec:false,
+  fit:"Được từ tháng 2 — bán cho khách vừa xong hai buổi khai thông, lúc họ còn đang muốn làm."},
+ {k:"ht",n:"Hoàn thiện hoá hệ thống quản lý Studio",s:"Trọn bộ hệ thống, đồng hành 3 tháng",p:80000000,d:50,q:[0,0,0],rec:false,
+  fit:"Khó — khách phải thấy kết quả của một mắt xích rồi mới dám bỏ 80 triệu. Sớm nhất là tháng 4."},
+ {k:"dh",n:"Đồng hành",s:"Vận hành cùng, thu hằng tháng — ô giá ghi sàn 12 triệu",p:12000000,d:65,q:[0,0,0],rec:true,
+  fit:"Không — phải hoàn thiện xong hệ thống mới có studio muốn thuê vận hành tiếp. Thu mức cao hơn giữa 12 triệu và 15% doanh thu."}
+];
+/* tỉ lệ khách khai thông mua tiếp mắt xích ở tháng sau */
+var UPSELL=0.40;
+
+/* các khâu chuyển đổi — mức đang chạy và mức mục tiêu em đề xuất */
+var CONV=[
+ {id:"icp",  n:"Người để lại số → đúng gu", now:38, goal:45,
+  how:"Lọc ngay từ trong video. Nói thẳng ở caption và lời mở đầu: nội dung dành cho chủ studio có từ 3 nhân sự trở lên. Mất bớt lượt xem nhưng người ở lại đúng hơn."},
+ {id:"book", n:"Đúng gu → đặt được lịch", now:20, goal:30,
+  how:"Gọi trong 24 giờ đầu thay vì để nguội. Gửi trước một tài liệu ngắn để họ thấy anh có hệ thống thật, trước khi mở lời hẹn."},
+ {id:"show", n:"Đặt lịch → thật sự có mặt", now:80, goal:85,
+  how:"Nhắc hai lần: trước 24 giờ và trước 1 giờ. Gửi kèm nội dung buổi gặp sẽ bàn gì, để họ thấy mất công không đến thì tiếc."},
+ {id:"close",n:"Có mặt → mua gói Khai thông", now:50, goal:55,
+  how:"Gửi case study và bảng giá TRƯỚC buổi gặp, không phải trong buổi. Vào gặp là bàn vấn đề của họ, không phải giới thiệu mình."},
+ {id:"up1",  n:"Mua Khai thông → mua tiếp Mắt Xích", now:40, goal:50,
+  how:"Chốt ngay cuối buổi Khai thông thứ hai, lúc họ vừa cầm lộ trình trên tay và đang muốn bắt tay làm. Để sang tuần sau là nguội."},
+ {id:"up2",  n:"Mua Mắt Xích → mua tiếp Hoàn thiện hoá", now:0, goal:30,
+  how:"Chỉ mở lời sau khi giao xong mắt xích đầu tiên và có số liệu chứng minh nó chạy. Bán bằng kết quả, không bán bằng lời hứa."},
+ {id:"ts",n:"Người để lại số → mua vé workshop", now:0, goal:6,
+  how:"Mời vào buổi Tâm sự ngay sau khi họ tải bộ Khám Phá. Vé 1,5 triệu nên quyết nhanh, và mỗi buổi anh gặp được nhiều người trong cùng một giờ."}
+];
+
+
+var GATES=[
+ ["Website","Trang web chạy được, form và nút Zalo không lỗi, mã theo dõi chạy đúng","Làm thêm tính năng mới","Dừng tính năng phụ, sửa cho xong phễu chính"],
+ ["Khách đúng gu","Ít nhất <b>35</b> người đúng đối tượng để lại thông tin trong tháng 3","Tăng tiền cho kênh đang thắng","Sửa lại nhắm đối tượng, sửa trang, sửa lời mời"],
+ ["Khách trả tiền","Ít nhất 3 người mua gói Khai thông","Tiếp tục tối ưu","Không tăng tiền quảng cáo"],
+ ["Hiệu quả","Tiền để có một khách trả tiền <b>dưới 4,6 triệu</b> ở tháng 3","Tăng tiền quảng cáo thêm 20–30%","Giữ nguyên mức đang test"],
+ ["Giữ đúng việc","Ngọc không bị kéo sang viết bài, quay, dựng","Giữ nguyên bảng phân việc","Ngồi lại làm rõ ai giao ai nhận"]
+];
+
+
+
+
+var KGROUPS=[
+ {g:1,n:"Tiền — cái phanh",tag:"1 chỉ số · 1 số phải nhập",
+  why:"Dòng này giữ cho cả đội không tiêu quá tay. Nếu chi đúng kế hoạch mà các mảng dưới không nhúc nhích thì vấn đề không nằm ở tiền — đừng xin thêm."},
+ {g:2,n:"Nội dung và kênh",tag:"3 chỉ số · 2 số phải nhập",
+  why:"Đo xem nguyên vật liệu có đổi được thành lượt nhìn không. Trượt ở đây thì mọi mảng dưới trượt theo. Cách sửa là đổi nội dung và cách nhắm, KHÔNG phải tăng tiền."},
+ {g:3,n:"Lấy số",tag:"2 chỉ số · 1 số phải nhập",
+  why:"Khúc thắt số một. Tiền cho mỗi người để lại số là chỉ số quan trọng nhất cả bảng — vượt ngưỡng là mọi con số phía sau đổ theo, vì tất cả đều nhân lên từ đây."},
+ {g:4,n:"Lọc và hẹn",tag:"4 chỉ số · 2 số phải nhập",
+  why:"Đông chưa chắc đúng. Mảng này tách chủ studio thật khỏi người xem cho vui. Tỉ lệ đúng gu tụt thì sửa lời mở đầu video và cách nhắm đối tượng, không sửa ngân sách."},
+ {g:5,n:"Bán",tag:"4 chỉ số · 3 số phải nhập",
+  why:"Chỗ duy nhất tiền đổi chiều — trước mảng này mọi thứ đều là chi. Tỉ lệ chốt là phần anh trực tiếp làm, nên nó cũng là phần anh sửa được nhanh nhất."},
+ {g:6,n:"Tiền về",tag:"3 chỉ số · 1 số phải nhập",
+  why:"Ba dòng trả lời một câu: tháng này bán được bao nhiêu, và mỗi đồng quảng cáo mang về bao nhiêu."}
+];
+
+var KPIS=[
+ {g:1,k:"spend",inp:true,n:"Tiền marketing đã chi",cmp:"≤",t:[6250000,8150000,9150000],u:"vnd",
+  say:"Quảng cáo cộng tiền đẩy bài, không tính khoản mua follow. Lấy ở trình quảng cáo và sổ chi."},,
+
+ {g:2,k:"vid",inp:true,n:"Số video đã đem chạy",cmp:"≥",t:[9,18,18],u:"n",
+  say:"Tiền đẩy bài chia 100 nghìn một video. Đếm ở nhật ký đẩy bài của Ngọc."},
+ {g:2,k:"imp",inp:true,n:"Lượt hiển thị",cmp:"≥",t:[130000,175000,200000],u:"n",
+  say:"Số lần nội dung hiện ra trước mắt người ta, cộng cả tự nhiên và trả tiền."},
+ {g:2,k:"cpm",inp:false,n:"Tiền cho mỗi nghìn lượt hiển thị",cmp:"≤",t:[50000,50000,50000],u:"vnd",
+  say:"Tiền marketing chia lượt hiển thị, nhân nghìn. Vượt 50 nghìn là đang mua lượt nhìn quá đắt.",
+  f:function(v,m){ return v.imp[m]>0 ? v.spend[m]/v.imp[m]*1000 : NaN; }},
+
+ {g:3,k:"lead",inp:true,n:"Người để lại thông tin",cmp:"≥",t:[42,68,92],u:"n",
+  say:"Số người điền form hoặc nhắn Zalo để lại số. Đếm ở phần mềm quản lý khách."},
+ {g:3,k:"cpl",inp:false,n:"Tiền cho mỗi người để lại số",cmp:"≤",t:[150000,120000,100000],u:"vnd",
+  say:"Tiền marketing chia số người để lại số. Đây là chỉ số phải nhìn hằng tuần, không đợi cuối tháng.",
+  f:function(v,m){ return v.lead[m]>0 ? v.spend[m]/v.lead[m] : NaN; }},
+
+ {g:4,k:"icp",inp:true,n:"Người đúng gu",cmp:"≥",t:[16,26,35],u:"n",
+  say:"Trong số người để lại số, mấy người là chủ studio thật, đủ tiêu chí đã chốt ở tuần 1."},
+ {g:4,k:"icprate",inp:false,n:"Tỉ lệ đúng gu",cmp:"≥",t:[38,38,38],u:"pct",
+  say:"Người đúng gu chia người để lại số. Dưới 38% là nội dung đang kéo nhầm người.",
+  f:function(v,m){ return v.lead[m]>0 ? v.icp[m]/v.lead[m]*100 : NaN; }},
+ {g:4,k:"met",inp:true,n:"Số buổi gặp thật",cmp:"≥",t:[2,4,6],u:"n",
+  say:"Số buổi anh thật sự ngồi tư vấn — đã hẹn mà khách không đến thì không tính."},
+ {g:4,k:"cpmeet",inp:false,n:"Tiền cho mỗi buổi gặp thật",cmp:"≤",t:[3125000,2040000,1525000],u:"vnd",
+  say:"Tiền marketing chia số buổi gặp. Cho biết mỗi lần anh ngồi xuống tư vấn đang tốn bao nhiêu.",
+  f:function(v,m){ return v.met[m]>0 ? v.spend[m]/v.met[m] : NaN; }},
+
+ {g:5,k:"kt",inp:true,n:"Khách mua Khai thông điểm nghẽn",cmp:"≥",t:[1,2,3],u:"n",
+  say:"Số người đã trả tiền gói 6 triệu. Đếm ở bảng Đơn hàng trong base."},
+ {g:5,k:"closerate",inp:false,n:"Tỉ lệ chốt sau khi gặp",cmp:"≥",t:[45,50,50],u:"pct",
+  say:"Khách mua chia số buổi gặp. Đây là phần anh trực tiếp làm nên cũng là phần sửa được nhanh nhất.",
+  f:function(v,m){ return v.met[m]>0 ? v.kt[m]/v.met[m]*100 : NaN; }},
+ {g:5,k:"ts",inp:true,n:"Vé Tâm sự cùng chủ Studio đã bán",cmp:"≥",t:[0,4,5],u:"n",
+  say:"Tháng 1 chưa có buổi nào vì bộ tài liệu tới tuần 5 mới xong. Từ tháng 2 mỗi tháng một buổi."},
+ {g:5,k:"mx",inp:true,n:"Studio đặt cọc Kiến Tạo Mắt Xích",cmp:"≥",t:[0,0,1],u:"n",
+  say:"Một cọc duy nhất ở tháng 3 cũng đủ — đó là bằng chứng khách chịu trả cho việc mình làm hộ."},
+
+ {g:6,k:"rev",inp:true,n:"Doanh thu thực thu",cmp:"≥",t:[6000000,18000000,43500000],u:"vnd",
+  say:"Tiền đã về tài khoản trong tháng, gồm cả tiền cọc. Không tính hợp đồng mới ký chưa thu."},,
+ {g:6,k:"cac",inp:false,n:"Tiền để có một khách trả tiền",cmp:"≤",t:[6250000,4075000,3050000],u:"vnd",
+  say:"Tiền marketing chia số khách mua Khai thông. Con số này phải đi xuống qua từng tháng — đi lên là đang mua khách ngày một đắt.",
+  f:function(v,m){ return v.kt[m]>0 ? v.spend[m]/v.kt[m] : NaN; }},
+ {g:6,k:"roas",inp:false,n:"Một đồng marketing thu về mấy đồng",cmp:"≥",t:[0.9,2.2,4.7],u:"x",
+  say:"Doanh thu chia tiền marketing. Vượt 1 là tiền quảng cáo bắt đầu tự nuôi mình.",
+  f:function(v,m){ return v.spend[m]>0 ? v.rev[m]/v.spend[m] : NaN; }},
+];
+
+
+
+
+/* ---------- helpers ---------- */
+function num(v){ if(v===null||v===undefined) return 0;
+  var s=String(v).trim(); if(!s) return 0; s=s.replace(/\s/g,"");
+  if(s.indexOf(",")>-1){ s=s.replace(/\./g,"").replace(",","."); }
+  else if(/^\d{1,3}(\.\d{3})+$/.test(s)){ s=s.replace(/\./g,""); }
+  var n=parseFloat(s.replace(/[^0-9.\-]/g,"")); return isFinite(n)?n:0; }
+function vnd(n){ if(!isFinite(n)) n=0; return Math.round(n).toLocaleString("vi-VN"); }
+function dec(n){ if(!isFinite(n)) n=0; return (Math.round(n*10)/10).toLocaleString("vi-VN"); }
+function $(id){ return document.getElementById(id); }
+function val(id){ var e=$(id); return e?num(e.value):0; }
+function set(id,t,c){ var e=$(id); if(!e) return; e.textContent=t;
+  if(c!==undefined) e.className=e.className.replace(/\b(good|bad|mid|pos|neg|amber)\b/g,"").replace(/\s+/g," ").trim()+(c?" "+c:""); }
+function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;"); }
+
+/* ---------- render ---------- */
+$("gates").innerHTML=GATES.map(function(g,i){
+  return '<div class="card gate"><div class="lab">Câu '+(i+1)+'</div><h4>'+esc(g[0])+'</h4>'+
+   '<p>'+esc(g[1])+'</p><div class="yes">Đạt → '+esc(g[2])+'</div><div class="no">Không đạt → '+esc(g[3])+'</div></div>';
+}).join("");
+
+
+
+
+var WHO={Q:"Quang",T:"Trang",N:"Ngọc",F:"Thuê ngoài"};
+var CGROUPS=[
+ {g:1,n:"Tuần 1 · 21–27/9 · Chốt nền móng",why:"Nhóm chặn. Xong hết nhóm này mới được tiêu đồng quảng cáo đầu tiên."},
+ {g:2,n:"Tuần 2 · 28/9–4/10 · Dựng web và đường đi của khách",why:"Chưa có web và mã đo thì mọi đồng quảng cáo sau đó đều không truy được nguồn."},
+ {g:3,n:"Tuần 3–4 · 5–18/10 · Mồi câu và bật kênh",why:"Có mồi câu mới lấy được số. Có số mới có gì để đo."},
+ {g:4,n:"Tuần 5–8 · 19/10–15/11 · Bán và buổi Tâm sự",why:"Giai đoạn tiền đổi chiều. Đây cũng là tháng căng nhất về dòng tiền."},
+ {g:5,n:"Tuần 9–13 · 16/11–19/12 · Bằng chứng và chốt",why:"Không có case thật thì không mở được bậc 18 triệu, và không có gì để quyết đi hay dừng."},
+ {g:6,n:"Việc lặp lại · chạy suốt 90 ngày",why:"Không có hạn một lần. Trễ ở đây không ai thấy ngay, nên phải có lịch cố định."}
+];
+var CHECK=[
+ /* ---- TUẦN 1 ---- */
+ {g:1,who:"Q",n:"Lập CRM cho dự án",out:"Base CRM chạy được với các bảng Người, Cơ hội, Đơn hàng, Thu tiền, Chiến dịch; đã phân quyền cho Trang và Ngọc",meas:"Trang và Ngọc đăng nhập được và tạo thử trọn một bản ghi từ lead mới đến đơn hàng, không lỗi trường nào",due:"22/9"},
+ {g:1,who:"N",n:"Đo mức tương tác nền của kênh TRƯỚC khi buff",out:"Bảng ghi tỉ lệ tương tác TikTok và Facebook của 10 video gần nhất",meas:"Có con số cụ thể của đủ 10 video, chụp màn hình kèm theo",due:"22/9"},
+ {g:1,who:"Q",n:"Chốt bảng giá và câu hỏi thường gặp",out:"Một file có 7 bậc giá, mỗi bậc ghi gồm gì và điều kiện gì, kèm 10 câu hỏi thường gặp đã có câu trả lời",meas:"Trang và Ngọc đọc xong không phải hỏi lại câu nào",due:"23/9"},
+ {g:1,who:"Q",n:"Viết hồ sơ gói Khai thông điểm nghẽn",out:"Một trang A4: buổi 1 làm gì, buổi 2 làm gì, khách cầm về cái gì, kèm mẫu lộ trình bàn giao",meas:"Trang dựa vào đó viết được một bài giới thiệu mà không hỏi thêm",due:"24/9"},
+ {g:1,who:"Q",n:"Xây dựng quy trình tư vấn cho từng gói",out:"Với mỗi gói bán trong 90 ngày (Tâm sự, Khai thông, Mắt Xích): ai tư vấn, mấy bước, gửi tài liệu gì ở bước nào, câu chốt là gì, và cách xử lý 5 phản bác hay gặp nhất",meas:"Trang cầm quy trình chạy thử một ca giả lập từ đầu đến lúc chốt mà không phải hỏi anh câu nào",due:"25/9"},
+ {g:1,who:"Q",co:"N",n:"Chốt tiêu chí khách đúng gu",out:"Một trang liệt kê 5 tiêu chí nhận và 5 tiêu chí loại",meas:"Ngọc tự phân loại 10 lead mẫu, khớp ít nhất 8/10 với anh",due:"24/9"},
+ {g:1,who:"N",n:"Chốt cách tính từng con số",out:"Bảng định nghĩa 10 chỉ số: tính từ đâu, gồm khoản nào, tính từ mốc nào",meas:"Ngọc và Quang tính thử một tháng mẫu, ra cùng một kết quả",due:"25/9"},
+ {g:1,who:"N",n:"Vẽ đường đi của khách",out:"Sơ đồ 6 bước từ xem video đến mua Mắt Xích, mỗi bước có người chịu trách nhiệm và cách đo",meas:"Cả ba người nhìn sơ đồ và chỉ đúng phần của mình",due:"25/9"},
+ {g:1,who:"T",co:"Q",n:"Lên khung nội dung tháng 1",out:"9 ý tưởng video nuôi tệp và 8 bài Fanpage đã có tiêu đề và góc nhìn",meas:"Quang duyệt ít nhất 80% mà không phải sửa lớn",due:"25/9"},
+ {g:1,who:"N",n:"Mua tích xanh Facebook",out:"Fanpage có dấu tích xanh, giữ nguyên page cũ",meas:"Dấu tích hiển thị trên page",due:"27/9"},
+ {g:1,who:"N",n:"Buff follow TikTok có trần và có mốc dừng",out:"Kênh đạt 2.000–3.000 follow rồi dừng hẳn",meas:"Follow nằm trong khoảng, và tỉ lệ tương tác không tụt quá 30% so với mốc nền",due:"27/9"},
+ {g:1,who:"N",n:"Gắn mã theo dõi",out:"Pixel Facebook, pixel TikTok và mã UTM chạy đúng trên mọi nguồn",meas:"Một lượt truy cập thử hiện đủ trong cả ba trình quản lý",due:"27/9"},
+ /* ---- TUẦN 2 ---- */
+ {g:2,who:"N",co:"Q",n:"Chốt web làm những gì",out:"Sơ đồ 5 trang: giới thiệu, gói Khai thông, tải bộ Khám Phá, cảm ơn, nút Zalo",meas:"Quang duyệt sơ đồ TRƯỚC khi Ngọc viết dòng mã đầu tiên",due:"29/9"},
+ {g:2,who:"Q",co:"T",n:"Viết chữ cho 3 trang web",out:"Bản chữ hoàn chỉnh cho trang Khai thông, trang tải bộ Khám Phá, trang cảm ơn: tiêu đề, lợi ích, phản bác, giá, nút bấm",meas:"Ngọc đổ thẳng vào web, không phải tự nghĩ thêm chữ nào",due:"1/10"},
+ {g:2,who:"T",n:"Chốt và thử freelancer dựng video",out:"1–2 freelancer đã chốt giá mỗi video và cam kết trả file trong 48 giờ",meas:"Một video thử đạt chuẩn ngay lần giao đầu",due:"2/10"},
+ {g:2,who:"N",n:"Dựng web",out:"Web chạy tốt trên cả máy tính và điện thoại",meas:"Điểm tốc độ từ 70 trở lên, không lỗi hiển thị trên màn hình 375px",due:"4/10"},
+ {g:2,who:"N",n:"Nối web với hệ thống khách",out:"Form đổ thẳng vào phần mềm quản lý, có nút Zalo, email báo và trang cảm ơn",meas:"Một khách giả đi trọn vòng, thông tin về đủ trong 1 phút",due:"4/10"},
+ {g:2,who:"N",co:"Q",n:"Kiểm tra kỹ thuật trước khi chạy tiền",out:"Checklist bảo mật, form, hiển thị điện thoại, tốc độ, sao lưu, quyền riêng tư đã tick hết",meas:"Không còn lỗi nào chặn khách",due:"4/10"},
+ /* ---- TUẦN 3-4 ---- */
+ {g:3,who:"N",n:"Lập danh sách nơi có khách",out:"Ít nhất 30 nhóm Facebook, page, chủ studio phù hợp, đã chấm điểm từng nơi",meas:"Đủ 30 chỗ, mỗi chỗ có điểm và lý do",due:"7/10"},
+ {g:3,who:"N",n:"So lại tương tác sau khi buff",out:"Bảng đối chiếu tỉ lệ tương tác trước và sau",meas:"Tụt quá 30% thì dừng buff ngay trong ngày, chuyển tiền sang quảng cáo lấy follow thật",due:"9/10"},
+ {g:3,who:"Q",co:"T",n:"Hoàn thành bộ Khám Phá Bộ Máy Vận Hành Studio",out:"File PDF có sơ đồ 7 mảng vận hành, ảnh bìa và mô tả, dùng được ngay",meas:"5 chủ studio quen đọc thử, ít nhất 4 người nói hiểu ngay mà không cần giải thích",due:"9/10"},
+ {g:3,who:"N",n:"Lập tài khoản quảng cáo chuẩn",out:"Tài khoản Facebook và TikTok có pixel, quy tắc đặt tên chiến dịch, phân quyền rõ",meas:"Ngọc và Quang cùng đọc tên chiến dịch và hiểu giống nhau",due:"13/10"},
+ {g:3,who:"Q",n:"Viết kịch bản hai buổi Khai thông",out:"Danh sách câu hỏi soi, bảng chấm 7 mảng, khung lộ trình điền được ngay trong buổi",meas:"Dùng thật ở ca đầu tiên và điền xong trong buổi, không phải làm thêm sau",due:"16/10"},
+ {g:3,who:"T",co:"F",n:"Giao 9 video nuôi tệp tháng 1",out:"9 file dọc 9:16, có phụ đề, file gốc không logo, có mã và câu kêu gọi",meas:"Đủ 9 file đúng chuẩn kỹ thuật, giao trước lịch chạy 5 ngày làm việc",due:"16/10"},
+ {g:3,who:"N",n:"Đẩy 9 video vào nhóm",out:"Nhật ký đẩy có mã video, link, kết quả từng lượt",meas:"Đủ 9 lượt đẩy, chi đúng 900.000đ",due:"18/10"},
+ {g:3,who:"N",n:"Chạy thử quảng cáo TikTok tháng 1",out:"Ít nhất 3 nhóm đối tượng khác nhau, ngân sách 3.000.000đ",meas:"Ra ít nhất 42 người để lại số, giá mỗi người không quá 150.000đ",due:"20/10"},
+ {g:3,who:"N",n:"Chạy thử quảng cáo Facebook tháng 1",out:"Chiến dịch bám theo người đã xem video, ngân sách 2.000.000đ",meas:"Có ít nhất 3 người đặt được lịch gặp",due:"20/10"},
+ /* ---- TUẦN 5-8 ---- */
+ {g:4,who:"Q",co:"T",n:"Bộ tài liệu buổi Tâm sự cùng chủ Studio",out:"Dàn ý, slide, ảnh chính, mô tả buổi thống nhất giờ giấc và lời mời",meas:"Xong trước ngày diễn ra buổi ít nhất 7 ngày",due:"26/10"},
+ {g:4,who:"Q",n:"Lời mời lên Khai thông sau buổi Tâm sự",out:"Một tin nhắn và một trang ưu đãi có hạn 7 ngày",meas:"Gửi cho 100% người dự buổi trong vòng 24 giờ sau buổi",due:"26/10"},
+ {g:4,who:"Q",co:"T",n:"Chuỗi tin nhắn ngày 0 · 1 · 3 · 7",out:"Bốn tin viết sẵn, tin cuối là lời mời đặt lịch Khai thông, có chỗ chèn tên khách",meas:"Bốn tin đã được Quang duyệt từng chữ",due:"30/10"},
+ {g:4,who:"N",n:"Cài nhắn tin tự động",out:"Chuỗi 4 tin chạy tự động trên phần mềm quản lý khách",meas:"Thử một số điện thoại thật, nhận đủ 4 tin đúng ngày; trên 90% khách nhận đủ chuỗi",due:"2/11"},
+ {g:4,who:"T",co:"Q",n:"Chạy buổi Tâm sự tháng 2",out:"Một buổi nhóm trực tuyến, có thu tiền vé",meas:"Bán được ít nhất 4 vé, ít nhất 3 người có mặt đủ buổi",due:"6/11"},
+ {g:4,who:"N",n:"Thử hai bản trang web",out:"Hai phiên bản tiêu đề và nút bấm chạy song song",meas:"Mỗi bản đạt ít nhất 100 lượt truy cập rồi mới chọn bản thắng",due:"8/11"},
+ {g:4,who:"T",co:"F",n:"Giao 12 video nuôi tệp và 6 video bán hàng tháng 2",out:"18 file đạt chuẩn; video bán hàng dài 15–60 giây, có 2 bản mở đầu khác nhau",meas:"Đủ 18 file, giá và lời mời trong video đã được Quang duyệt",due:"13/11"},
+ {g:4,who:"Q",n:"Hồ sơ gói Kiến Tạo Mắt Xích",out:"Văn bản ghi chọn được mảng nào trong 7 mảng, làm bao lâu, đo bằng chỉ số gì, ai của Ngọt xuống làm",meas:"Gửi được cho khách Khai thông đầu tiên mà không phải giải thích thêm",due:"13/11"},
+ /* ---- TUẦN 9-13 ---- */
+ {g:5,who:"Q",co:"T",n:"Làm 2 câu chuyện khách hàng",out:"Hai bộ có số liệu trước và sau, trích dẫn, ảnh hoặc video, và văn bản khách đồng ý cho dùng",meas:"Đủ 2 bộ, mỗi bộ có ít nhất 1 con số đo được",due:"29/11"},
+ {g:5,who:"N",n:"Làm trang bằng chứng trên web",out:"Một trang đưa câu chuyện khách và lời khen, có gắn mã đo nút bấm",meas:"Trang chạy, mã đo ghi nhận được lượt bấm",due:"6/12"},
+ {g:5,who:"N",n:"Mở rộng web nếu phễu chính đã ổn",out:"Thêm trang tải tài liệu có điều kiện",meas:"Tốc độ trang không tụt quá 10% so với trước khi thêm",due:"6/12"},
+ {g:5,who:"T",co:"F",n:"Giao 12 video nuôi tệp và 6 video bán hàng tháng 3",out:"18 file đạt chuẩn kỹ thuật",meas:"Đủ 18 file, giao trước lịch chạy 5 ngày",due:"11/12"},
+ {g:5,who:"Q",co:"N+T",n:"Tổng kết 90 ngày và quyết đi tiếp hay dừng",out:"Báo cáo ba tháng, chấm 5 câu hỏi ở tab Hiểu nhanh, một quyết định được ghi thành văn bản",meas:"Cả ba người cùng ngồi, quyết định ghi rõ tăng khoản nào, tắt khoản nào",due:"19/12"},
+ /* ---- LẶP LẠI ---- */
+ {g:6,who:"T",n:"Viết và đăng 2 bài Fanpage mỗi tuần",out:"Bài viết hoàn chỉnh kèm ảnh, có câu kêu gọi và link",meas:"Đủ 24 bài trong 90 ngày, không tuần nào trống",due:"Mỗi thứ 5 hằng tuần"},
+ {g:6,who:"T",n:"Gọi người đúng gu trong 24 giờ đầu",out:"Nhật ký gọi ghi ngày giờ, kết quả, lịch hẹn đã đặt",meas:"Trên 20% người đúng gu đặt được lịch; trên 70% người đã hẹn thật sự có mặt",due:"Trong 24h kể từ khi khách để lại số"},
+ {g:6,who:"T",co:"Q",n:"Phụ trách nhập liệu CRM khách hàng",out:"Mọi người để lại số đều có một bản ghi trong CRM: tên, số điện thoại, nguồn, trạng thái, ngày chạm gần nhất",meas:"100% khách để lại số được nhập trong 24 giờ, và không có hai bản ghi trùng số điện thoại",due:"Hằng ngày, từ 28/9"},
+ {g:6,who:"Q",n:"Ghi hình và lưu hồ sơ mỗi ca Khai thông",out:"Mỗi ca một thư mục: file ghi màn hình, bảng chấm 7 mảng đã điền, lộ trình đã giao, ghi chú pain lặp lại",meas:"100% ca có đủ cả 4 thứ, lưu trong 24 giờ sau buổi",due:"Ngay sau mỗi ca, từ ca đầu tiên"},
+ {g:6,who:"N",n:"Đẩy bài Fanpage có nội dung",out:"Nhật ký bình luận kèm link dưới bài bán hàng và bài nuôi tệp",meas:"Chi đúng 350.000đ mỗi tháng, đúng mục",due:"Chốt số ngày 20 hằng tháng"},
+ {g:6,who:"N",n:"Cắt chỗ đang phí tiền",out:"Báo cáo tối ưu hằng tuần: nhóm nào tắt, nhóm nào giữ, vì sao",meas:"Tắt nhóm không ra khách đúng gu trong 7 ngày liên tiếp",due:"Mỗi thứ 2 hằng tuần"},
+ {g:6,who:"N",co:"Q",n:"Nhập 10 số chỉ số và chấm tháng",out:"10 ô trắng ở tab Chỉ số theo dõi đã điền đủ, phần đánh giá đã hiện",meas:"Nhập đủ 10/10 số trong vòng 2 ngày sau khi hết tháng",due:"22/10 · 21/11 · 21/12"}
+];
+
+(function(){
+  var filter="ALL";
+  function draw(){
+    $("whoBar").innerHTML=['ALL','Q','T','N'].map(function(k){
+      var lab = k==="ALL" ? "Tất cả" : WHO[k];
+      var n = CHECK.filter(function(c){ return k==="ALL"||c.who===k; }).length;
+      return '<button data-who="'+k+'"'+(filter===k?' class="on"':'')+'>'+lab+' ('+n+')</button>';
+    }).join("");
+    $("ckList").innerHTML=CGROUPS.map(function(G){
+      var rows=CHECK.map(function(c,i){ return {c:c,i:i}; })
+                    .filter(function(x){ return x.c.g===G.g && (filter==="ALL"||x.c.who===filter); });
+      if(!rows.length) return "";
+      var done=0; rows.forEach(function(x){ var e=$("ck2_"+x.i); if(e&&e.checked) done++; });
+      return '<div class="wk"><div class="wkh"><div class="w">Nhóm '+G.g+'</div><div class="t">'+esc(G.n)+
+        '</div><div class="c" id="cgc_'+G.g+'">'+done+'/'+rows.length+' xong</div></div>'+
+        '<div class="task" style="grid-template-columns:1fr"><div class="td">'+esc(G.why)+'</div></div>'+
+        rows.map(function(x){
+          var c=x.c;
+          var owner=WHO[c.who]+(c.co?' <span style="color:var(--text-3)">+ '+esc(c.co.split("+").map(function(k){return WHO[k]||k;}).join(", "))+'</span>':'');
+          return '<div class="task" id="tk2_'+x.i+'"><input type="checkbox" id="ck2_'+x.i+'">'+
+            '<div><div class="tt">'+esc(c.n)+'</div>'+
+            '<div class="tm"><span class="tag">'+owner+'</span><span class="tag">Hạn: '+esc(c.due)+'</span></div>'+
+            '<div class="td" style="margin-top:6px"><b>Đầu ra:</b> '+esc(c.out)+'</div>'+
+            '<div class="td"><b>Đo bằng:</b> '+esc(c.meas)+'</div></div></div>';
+        }).join("")+'</div>';
+    }).join("");
+    Array.prototype.forEach.call(document.querySelectorAll('#ckList input[type=checkbox]'),function(e){
+      e.addEventListener("change",function(){ progress(); save(); draw(); });
+    });
+    load2();
+  }
+  function load2(){
+    try{
+      var raw=localStorage.getItem(KEY);
+      if(raw){
+        var o=JSON.parse(raw);
+        (o.checks||[]).forEach(function(i){ var e=$("ck2_"+i); if(e){ e.checked=true; var r=$("tk2_"+i); if(r) r.className="task done"; } });
+      }
+    }catch(e){}
+    CHECK.forEach(function(c,i){ var e=$("ck2_"+i), r=$("tk2_"+i); if(e&&r) r.className="task"+(e.checked?" done":""); });
+    var d=0; CHECK.forEach(function(c,i){ var e=$("ck2_"+i); if(e&&e.checked) d++; });
+    var b=$("ckBar"); if(b) b.style.width=(d/CHECK.length*100)+"%";
+    set("kTask", d+"/"+CHECK.length, d===CHECK.length?"good":"");
+    set("kTaskN","trên tổng "+CHECK.length+" đầu việc");
+  }
+  window.__ckDraw=draw; window.__ckLoad=load2;
+  $("whoBar").addEventListener("click",function(ev){
+    var b=ev.target.closest("button"); if(!b) return;
+    filter=b.getAttribute("data-who"); draw();
+  });
+  draw();
+})();
+
+function kdisp(u,x){ if(!isFinite(x)) return "—";
+  return u==="vnd"?vnd(x):(u==="pct"?dec(x)+"%":(u==="x"?dec(x)+"x":dec(x))); }
+
+$("kpiBody").innerHTML=KGROUPS.map(function(G){
+  var head='<tr class="sum"><td colspan="8">'+
+    '<span class="agn">MẢNG '+G.g+' · '+esc(G.n)+'</span>'+
+    '<span class="ags">'+esc(G.tag)+'</span>'+
+    '<div class="agw">'+esc(G.why)+'</div></td></tr>';
+  return head+KPIS.filter(function(k){ return k.g===G.g; }).map(function(k){
+    var cells="";
+    for(var m=0;m<3;m++){
+      cells+='<td class="n calc">'+k.cmp+" "+kdisp(k.u,k.t[m])+'</td>';
+      cells+= k.inp
+        ? '<td class="n"><input type="text" id="ka_'+k.k+'_'+m+'" inputmode="decimal" placeholder="—"></td>'
+        : '<td class="n calc" id="kc_'+k.k+'_'+m+'" style="color:var(--text-3)">—</td>';
+    }
+    return '<tr><td><span class="lbl">'+esc(k.n)+'</span>'+(k.inp?'':' <span class="ags" style="margin-left:6px">· tự tính</span>')+'</td>'+
+      '<td><span class="sub" style="margin:0">'+esc(k.say)+'</span></td>'+cells+'</tr>';
+  }).join("");
+}).join("");
+
+(function(){
+  var h="";
+  BUDGET.forEach(function(b){
+    var tot=b[2]+b[3]+b[4];
+    h+='<tr><td><span class="lbl">'+esc(b[0])+'</span><span class="sub">'+esc(b[1])+'</span></td>'+
+       '<td class="n calc">'+vnd(b[2])+'</td><td class="n calc">'+vnd(b[3])+'</td><td class="n calc">'+vnd(b[4])+'</td>'+
+       '<td class="n calc">'+vnd(tot)+'</td><td><span class="sub" style="margin:0">'+esc(b[5])+'</span></td></tr>';
+  });
+  var s=[0,0,0];
+  BUDGET.forEach(function(b){ s[0]+=b[2]; s[1]+=b[3]; s[2]+=b[4]; });
+  h+='<tr class="grand"><td>Cộng lại</td><td class="n calc">'+vnd(s[0])+'</td><td class="n calc">'+vnd(s[1])+
+     '</td><td class="n calc">'+vnd(s[2])+'</td><td class="n calc">'+vnd(s[0]+s[1]+s[2])+'</td><td></td></tr>';
+  $("budgetBody").innerHTML=h;
+})();
+
+/* ---------- compute ---------- */
+
+var TOTB=0; BUDGET.forEach(function(b){ TOTB+=b[2]+b[3]+b[4]; });
+
+var TARGETS=[
+ ["Người để lại thông tin","42","68","92","Tiền ra khách chia giá mỗi người: 150 / 120 / 100 nghìn."],
+ ["Trong đó người đúng gu","16","26","35","38 phần trăm số người để lại số là chủ studio thật, đủ tiêu chí."],
+ ["Số buổi hẹn","3","5","7","Cứ 5 người đúng gu thì 1 người chịu hẹn gặp."],
+ ["Số buổi gặp thật","2","4","6","Hẹn rồi thì 70, 75, 80 phần trăm thật sự đến."],
+ ["Khách mua Khai thông điểm nghẽn","1","2","3","Gặp rồi thì khoảng một nửa mua."],
+ ["Vé Tâm sự cùng chủ Studio","0","4","5","6 phần trăm người để lại số mua vé. Tháng 1 chưa có buổi nào."],
+ ["Studio đặt cọc Kiến Tạo Mắt Xích","0","0","1","40 phần trăm khách Khai thông mua tiếp, nhưng trễ một tháng."],
+ ["Doanh thu","6.000.000","18.000.000","43.500.000","Cộng ba dòng bán ở trên."]
+];
+$("targetBody").innerHTML=TARGETS.map(function(t,i){
+  return '<tr'+(i===TARGETS.length-1?' class="grand"':(i===4?' class="sum"':''))+'><td><span class="lbl">'+esc(t[0])+'</span></td>'+
+    '<td class="n calc">'+esc(t[1])+'</td><td class="n calc">'+esc(t[2])+'</td><td class="n calc">'+esc(t[3])+'</td>'+
+    '<td><span class="sub" style="margin:0">'+esc(t[4])+'</span></td></tr>';
+}).join("");
+
+var WHEN={kp:"Có từ tuần 2. Là mồi câu, không thu tiền.",
+          ts:"Bán từ tháng 2, mỗi tháng một buổi.",
+          tx:"Chưa bán trong 90 ngày — chưa sản xuất.",
+          kt:"Bán suốt 90 ngày. Đây là sản phẩm chính.",
+          mx:"Bán từ tháng 2 cho khách vừa xong Khai thông.",
+          ht:"Chưa mở bán trong 90 ngày.",
+          dh:"Chưa mở trong 90 ngày."};
+$("priceBody").innerHTML=PRODUCTS.map(function(P){
+  var soon = (WHEN[P.k]||"").indexOf("Chưa")===0;
+  return '<tr'+(soon?' style="opacity:.55"':'')+'><td><span class="lbl">'+esc(P.n)+'</span></td>'+
+    '<td class="n calc">'+(P.p>0?vnd(P.p)+"đ":"Miễn phí")+'</td>'+
+    '<td><span class="sub" style="margin:0">'+esc(P.s)+'</span></td>'+
+    '<td><span class="sub" style="margin:0">'+esc(WHEN[P.k]||"")+'</span></td></tr>';
+}).join("");
+
+function compute(){
+  var revT=[0,0,0], ktT=[0,0,0];
+  KPIS.forEach(function(k){ if(k.k==="rev") revT=k.t; if(k.k==="kt") ktT=k.t; });
+  set("kBudget", vnd(TOTB)+"đ");
+  set("kGoal", vnd(revT[0]+revT[1]+revT[2])+"đ");
+  set("kCust", dec(ktT[0]+ktT[1]+ktT[2]));
+
+  /* KPI đánh giá */
+  var V={};
+  KPIS.forEach(function(k){
+    if(!k.inp) return;
+    V[k.k]=[NaN,NaN,NaN];
+    for(var m=0;m<3;m++){ var e=$("ka_"+k.k+"_"+m); if(e&&e.value.trim()!=="") V[k.k][m]=num(e.value); }
+  });
+  var hit=0,miss=0,pend=0,gmiss={};
+  KPIS.forEach(function(k){
+    for(var m=0;m<3;m++){
+      var a,good;
+      if(k.inp){
+        var e=$("ka_"+k.k+"_"+m); if(!e) continue;
+        if(e.value.trim()===""){ e.style.color="var(--accent)"; e.style.borderColor="var(--rule-2)"; pend++; continue; }
+        a=num(e.value); good = k.cmp==="≥" ? a>=k.t[m] : a<=k.t[m];
+        e.style.color = good?"var(--ok)":"var(--stop)";
+        e.style.borderColor = good?"var(--ok)":"var(--stop)";
+      } else {
+        var el=$("kc_"+k.k+"_"+m); if(!el) continue;
+        a=k.f(V,m);
+        if(!isFinite(a)){ el.textContent="—"; el.style.color="var(--text-3)"; pend++; continue; }
+        good = k.cmp==="≥" ? a>=k.t[m] : a<=k.t[m];
+        el.textContent=kdisp(k.u,a); el.style.color = good?"var(--ok)":"var(--stop)";
+      }
+      if(good){ hit++; } else { miss++; gmiss[k.g]=(gmiss[k.g]||0)+1; }
+    }
+  });
+  var worstG=0,worstN=0;
+  KGROUPS.forEach(function(G){ if((gmiss[G.g]||0)>worstN){ worstN=gmiss[G.g]; worstG=G.g; } });
+  var gname=""; KGROUPS.forEach(function(G){ if(G.g===worstG) gname=G.n; });
+  $("kpiNote").innerHTML = (hit+miss)===0
+    ? "Điền các ô màu trắng vào cuối mỗi tháng — mỗi tháng chỉ 11 số. Ô ghi <b>tự tính</b> sẽ tự hiện, anh không phải bấm máy tính. Phần đánh giá hiện ở đây."
+    : "<b>Đạt "+hit+" chỉ số, trượt "+miss+" chỉ số.</b> "+
+      (worstN>0 ? "Mảng trượt nhiều nhất là <b>"+esc(gname)+"</b> ("+worstN+" chỉ số). Sửa mảng đó trước — sửa mảng dưới khi mảng trên còn hỏng là phí công. " : "")+
+      (miss>hit ? "Trượt nhiều hơn đạt — theo luật đã đặt thì dừng tăng ngân sách, quay lại sửa nội dung và cách nhắm đối tượng trước."
+                : "Phần lớn đang đúng hướng. Chỉ tăng tiền cho nhóm nào thật sự đạt ngưỡng, không tăng đại trà.");
+
+
+  progress(); save();
+}
+
+function progress(){ if(window.__ckLoad) window.__ckLoad(); }
+/* ---------- persistence ---------- */
+function save(){ try{
+  var o={inputs:{},checks:[]};
+  Array.prototype.forEach.call(document.querySelectorAll("input[type=text]"),function(e){ if(e.id&&e.value!=="") o.inputs[e.id]=e.value; });
+  CHECK.forEach(function(c,i){ var e=$("ck2_"+i); if(e&&e.checked) o.checks.push(i); });
+  localStorage.setItem(KEY,JSON.stringify(o));
+}catch(e){} }
+function load(){ try{
+  var raw=localStorage.getItem(KEY); if(!raw) return false;
+  var o=JSON.parse(raw);
+  Object.keys(o.inputs||{}).forEach(function(k){ var e=$(k); if(e) e.value=o.inputs[k]; });
+  (o.checks||[]).forEach(function(i){ var c=$("ck2_"+i); if(c) c.checked=true; });
+  return true;
+}catch(e){ return false; } }
+
+function put(id,v){ var e=$(id); if(e) e.value=v; else missing.push(id); }
+function defaults(){ /* bản đội không có ô số mặc định */ }
+
+/* ---------- wire ---------- */
+Array.prototype.forEach.call(document.querySelectorAll("input[type=text]"),function(e){
+  e.addEventListener("input",compute);
+  e.addEventListener("focus",function(){ e.select(); });
+  e.addEventListener("blur",function(){
+    if(e.value==="") return;
+    var money=/^(ka_spend|ka_rev)/.test(e.id);
+    e.value = money ? vnd(num(e.value)) : dec(num(e.value));
+    compute();
+  });
+});
+Array.prototype.forEach.call(document.querySelectorAll("input[type=checkbox]"),function(e){
+  e.addEventListener("change",function(){
+    if(e.id==="g_lag"){ try{ compute(); }catch(err){ boom("đổi độ trễ",err); } }
+    else { progress(); save(); }
+  });
+});
+
+$("btnRecalc").addEventListener("click",function(){
+  missing.length=0;
+  try{ compute(); }catch(e){ boom("tính lại",e); }
+});
+$("btnFresh").addEventListener("click",function(){
+  try{ localStorage.removeItem(KEY); }catch(e){}
+  missing.length=0;
+  try{ defaults(); compute(); }catch(e){ boom("nạp lại số gốc",e); }
+});
+$("tabs").addEventListener("click",function(ev){
+  var b=ev.target.closest("button"); if(!b) return;
+  Array.prototype.forEach.call($("tabs").children,function(x){ x.classList.toggle("on",x===b); });
+  Array.prototype.forEach.call(document.querySelectorAll(".pane"),function(p){ p.classList.toggle("on",p.id===b.dataset.p); });
+  window.scrollTo({top:0,behavior:"smooth"});
+});
+
+try{ defaults(); }catch(e){ boom("điền số mặc định",e); }
+try{ load(); }catch(e){ boom("đọc số đã lưu",e); }
+try{ compute(); }catch(e){ boom("tính toán",e); }
+if(missing.length) boom("dựng bảng","thiếu "+missing.length+" ô nhập");
+})();
+</script>

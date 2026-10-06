@@ -161,7 +161,7 @@ footer{border-top:1px solid var(--rule);padding:22px 0 40px;font-size:12px;color
   <div class="wrap">
     <div class="eyebrow">Ngọt Agency · 90 ngày đầu · bản dành cho đội thực thi</div>
     <h1>Kế hoạch 90 ngày<br>bản dành cho đội thực thi</h1>
-    <p>Bản này gồm bốn thứ: làm gì, chuẩn bị gì, bán gì, và đạt con số nào. Mọi ô tích và ô nhập lưu trên máy của chính người mở — mỗi người theo dõi phần việc của mình. Ai cần con số tài chính đầy đủ thì hỏi anh Quang.</p>
+    <p>Bản này gồm bốn thứ: làm gì, chuẩn bị gì, bán gì, và đạt con số nào. Checklist được dùng chung: ai có link cũng có thể tích hoặc bỏ tích, và mọi người thấy cập nhật ngay. Các ô nhập chỉ số vẫn lưu trên máy của người mở. Ai cần con số tài chính đầy đủ thì hỏi anh Quang.</p>
   </div>
 </header>
 
@@ -294,6 +294,7 @@ footer{border-top:1px solid var(--rule);padding:22px 0 40px;font-size:12px;color
     <p class="hint">Dự án chạy từ <b>thứ 2 ngày 21/9/2026</b> đến <b>19/12/2026</b>. Bấm tên người để chỉ xem việc của mình.</p>
     <div class="tools" id="whoBar"></div>
     <div class="bar"><i id="ckBar" style="width:0%"></i></div>
+    <p id="ckSync" role="status" aria-live="polite">Đang kết nối checklist dùng chung…</p>
     <div id="ckList"></div>
     <div class="note">
       <h4>Sáu quy tắc giao nhận</h4>
@@ -335,7 +336,7 @@ footer{border-top:1px solid var(--rule);padding:22px 0 40px;font-size:12px;color
 <footer>
   <div class="wrap">
     Kế hoạch 90 ngày Ngọt Agency · bản dành cho đội thực thi · tháng 9/2026.
-    Ô tích và số nhập được lưu trên máy của người mở, mở lại vẫn còn. Đây là bản rút gọn — phần tài chính đầy đủ do anh Quang giữ.
+    Checklist được đồng bộ chung theo thời gian thực. Số nhập được lưu trên máy của người mở, mở lại vẫn còn. Đây là bản rút gọn — phần tài chính đầy đủ do anh Quang giữ.
   </div>
 </footer>
 
@@ -575,6 +576,65 @@ var CHECK=[
  {g:6,who:"N",co:"Q",n:"Nhập 10 số chỉ số và chấm tháng",out:"10 ô trắng ở tab Chỉ số theo dõi đã điền đủ, phần đánh giá đã hiện",meas:"Nhập đủ 10/10 số trong vòng 2 ngày sau khi hết tháng",due:"22/10 · 21/11 · 21/12"}
 ];
 
+var sharedChecks = {}, pendingChecks = {}, sharedReady = false, sharedConnected = false;
+var checklistURL = "https://actionngotstudio-default-rtdb.asia-southeast1.firebasedatabase.app/checklists/team90/tasks";
+function syncStatus(message){
+  var e=$("ckSync"); if(e) e.textContent=message;
+}
+function checkedTask(i){
+  var key="t"+i;
+  return Object.prototype.hasOwnProperty.call(pendingChecks,key) ? pendingChecks[key] : sharedChecks[key]===true;
+}
+function syncProgress(){ if(window.__ckLoad) window.__ckLoad(); }
+function renderSyncStatus(){
+  var busy=Object.keys(pendingChecks).length;
+  syncStatus(!sharedConnected ? "Mất kết nối — đang kết nối lại. Bạn có thể tích khi kết nối trở lại." :
+    busy ? "Đang lưu thay đổi…" : "Đã đồng bộ trực tiếp · Ai có link cũng có thể tích hoặc bỏ tích.");
+}
+function writeCheck(i, checked){
+  var key="t"+i;
+  if(!sharedReady || !sharedConnected || Object.prototype.hasOwnProperty.call(pendingChecks,key)){ syncProgress(); return; }
+  pendingChecks[key]=checked; syncProgress(); renderSyncStatus();
+  var controller=new AbortController();
+  var timer=setTimeout(function(){ controller.abort(); },10000);
+  fetch(checklistURL+"/"+key+".json",{
+    method:"PUT", headers:{"Content-Type":"application/json"}, body:JSON.stringify(checked), signal:controller.signal
+  }).then(function(response){
+    if(!response.ok) throw new Error("Không lưu được thay đổi");
+    delete pendingChecks[key];
+    syncProgress(); renderSyncStatus();
+  }).catch(function(){
+    delete pendingChecks[key]; syncProgress();
+    syncStatus("Chưa xác nhận lưu được thay đổi. Vui lòng kiểm tra kết nối và thử lại.");
+  }).finally(function(){ clearTimeout(timer); });
+}
+function connectChecklist(){
+  var stream=new EventSource(checklistURL+".json");
+  function applyEvent(event){
+    try{
+      var change=JSON.parse(event.data), path=change.path;
+      if(path==="/"){
+        if(event.type==="put") sharedChecks=change.data || {};
+        else Object.keys(change.data || {}).forEach(function(k){ sharedChecks[k]=change.data[k]; });
+      }else{
+        var key=path.slice(1);
+        if(/^t\d+$/.test(key)) sharedChecks[key]=change.data;
+      }
+      sharedReady=true; sharedConnected=true; syncProgress(); renderSyncStatus();
+    }catch(error){ syncStatus("Không đọc được checklist. Hãy tải lại trang."); }
+  }
+  stream.addEventListener("put",applyEvent);
+  stream.addEventListener("patch",applyEvent);
+  stream.onopen=function(){ sharedConnected=true; syncProgress(); renderSyncStatus(); };
+  stream.onerror=function(){ sharedConnected=false; syncProgress(); renderSyncStatus(); };
+  stream.addEventListener("cancel",function(){
+    sharedConnected=false; stream.close(); syncProgress();
+    syncStatus("Checklist chưa được cấp quyền truy cập. Vui lòng liên hệ người quản lý trang.");
+  });
+  window.addEventListener("pagehide",function(){ stream.close(); });
+  window.addEventListener("pageshow",function(event){ if(event.persisted) connectChecklist(); });
+}
+
 (function(){
   var filter="ALL";
   function draw(){
@@ -602,22 +662,24 @@ var CHECK=[
         }).join("")+'</div>';
     }).join("");
     Array.prototype.forEach.call(document.querySelectorAll('#ckList input[type=checkbox]'),function(e){
-      e.addEventListener("change",function(){ progress(); save(); draw(); });
+      e.addEventListener("change",function(){ writeCheck(Number(e.id.slice(4)), e.checked); });
     });
     load2();
   }
   function load2(){
-    try{
-      var raw=localStorage.getItem(KEY);
-      if(raw){
-        var o=JSON.parse(raw);
-        (o.checks||[]).forEach(function(i){ var e=$("ck2_"+i); if(e){ e.checked=true; var r=$("tk2_"+i); if(r) r.className="task done"; } });
-      }
-    }catch(e){}
-    CHECK.forEach(function(c,i){ var e=$("ck2_"+i), r=$("tk2_"+i); if(e&&r) r.className="task"+(e.checked?" done":""); });
-    var d=0; CHECK.forEach(function(c,i){ var e=$("ck2_"+i); if(e&&e.checked) d++; });
+    CHECK.forEach(function(c,i){
+      var e=$("ck2_"+i), r=$("tk2_"+i);
+      if(e){ e.checked=checkedTask(i); e.disabled=!sharedReady || !sharedConnected || Object.prototype.hasOwnProperty.call(pendingChecks,"t"+i); }
+      if(r) r.className="task"+(checkedTask(i)?" done":"");
+    });
+    var d=0; CHECK.forEach(function(c,i){ if(checkedTask(i)) d++; });
+    CGROUPS.forEach(function(G){
+      var rows=CHECK.map(function(c,i){ return {c:c,i:i}; }).filter(function(x){ return x.c.g===G.g && (filter==="ALL"||x.c.who===filter); });
+      var count=rows.filter(function(x){ return checkedTask(x.i); }).length;
+      var label=$("cgc_"+G.g); if(label) label.textContent=count+"/"+rows.length+" xong";
+    });
     var b=$("ckBar"); if(b) b.style.width=(d/CHECK.length*100)+"%";
-    set("kTask", d+"/"+CHECK.length, d===CHECK.length?"good":"");
+    set("kTask", sharedReady ? d+"/"+CHECK.length : "—", d===CHECK.length?"good":"");
     set("kTaskN","trên tổng "+CHECK.length+" đầu việc");
   }
   window.__ckDraw=draw; window.__ckLoad=load2;
@@ -750,16 +812,14 @@ function compute(){
 function progress(){ if(window.__ckLoad) window.__ckLoad(); }
 /* ---------- persistence ---------- */
 function save(){ try{
-  var o={inputs:{},checks:[]};
+  var o={inputs:{}};
   Array.prototype.forEach.call(document.querySelectorAll("input[type=text]"),function(e){ if(e.id&&e.value!=="") o.inputs[e.id]=e.value; });
-  CHECK.forEach(function(c,i){ var e=$("ck2_"+i); if(e&&e.checked) o.checks.push(i); });
   localStorage.setItem(KEY,JSON.stringify(o));
 }catch(e){} }
 function load(){ try{
   var raw=localStorage.getItem(KEY); if(!raw) return false;
   var o=JSON.parse(raw);
   Object.keys(o.inputs||{}).forEach(function(k){ var e=$(k); if(e) e.value=o.inputs[k]; });
-  (o.checks||[]).forEach(function(i){ var c=$("ck2_"+i); if(c) c.checked=true; });
   return true;
 }catch(e){ return false; } }
 
@@ -780,7 +840,7 @@ Array.prototype.forEach.call(document.querySelectorAll("input[type=text]"),funct
 Array.prototype.forEach.call(document.querySelectorAll("input[type=checkbox]"),function(e){
   e.addEventListener("change",function(){
     if(e.id==="g_lag"){ try{ compute(); }catch(err){ boom("đổi độ trễ",err); } }
-    else { progress(); save(); }
+    else if(e.id.indexOf("ck2_")!==0) { progress(); save(); }
   });
 });
 
@@ -804,5 +864,6 @@ try{ defaults(); }catch(e){ boom("điền số mặc định",e); }
 try{ load(); }catch(e){ boom("đọc số đã lưu",e); }
 try{ compute(); }catch(e){ boom("tính toán",e); }
 if(missing.length) boom("dựng bảng","thiếu "+missing.length+" ô nhập");
+connectChecklist();
 })();
 </script>
